@@ -7,20 +7,20 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
 
-public class SoftwareProductRepository : BaseRepository<SoftwareProduct>
+public class SoftwareProductRepository : BaseRepository2<SoftwareProduct>
 {
-    private readonly DataContext _context;
+    private readonly DataContext2 _context2;
 
 
-    public SoftwareProductRepository(DataContext context) : base(context)
+    public SoftwareProductRepository(DataContext2 context2) : base(context2)
     {
-        _context = context;
+        _context2 = context2;
     }
 
 
     public override SoftwareProduct Get(Expression<Func<SoftwareProduct, bool>> expression)
     {
-        var entity = _context.SoftwareProducts
+        var entity = _context2.SoftwareProducts
                 .Include(i => i.Size)
                 .FirstOrDefault(expression);
         return entity!;
@@ -28,7 +28,7 @@ public class SoftwareProductRepository : BaseRepository<SoftwareProduct>
 
     public override IEnumerable<SoftwareProduct> GetAll()
     {
-        return _context.SoftwareProducts
+        return _context2.SoftwareProducts
                .Include(i => i.Size)
                .ToList();
     }

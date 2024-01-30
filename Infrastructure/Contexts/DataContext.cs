@@ -21,6 +21,4 @@ public partial class DataContext : DbContext
     public DbSet<TeamEntity> Teams { get; set; }
 
 
-
-    
 }

@@ -5,9 +5,9 @@ using Infrastructure.Entities;
 
 namespace Infrastructure.Repositories;
 
-public class SizeRepository : BaseRepository<Size>
+public class SizeRepository : BaseRepository2<Size>
 {
-    public SizeRepository(DataContext context) : base(context)
+    public SizeRepository(DataContext2 context2) : base(context2)
     {
     }
 }
