@@ -11,12 +11,16 @@ public class BaseRepository<TEntity> where TEntity : class
 {
 
     private readonly DataContext _context;
+    
 
 
     public BaseRepository(DataContext context)
     {
         _context = context;
+        
     }
+
+
 
     public virtual TEntity Create(TEntity entity)
     {
