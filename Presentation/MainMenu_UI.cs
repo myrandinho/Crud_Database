@@ -9,12 +9,14 @@ namespace Presentation
         private readonly ProductService _productService;
         private readonly CustomerService _customerService;
         private readonly ChampionService _championService;
+        private readonly SoftwareProductService _softwareProductService;
 
-        public MainMenu_UI(ProductService productService, CustomerService customerService, ChampionService championService)
+        public MainMenu_UI(ProductService productService, CustomerService customerService, ChampionService championService, SoftwareProductService softwareProductService)
         {
             _productService = productService;
             _customerService = customerService;
             _championService = championService;
+            _softwareProductService = softwareProductService;
         }
 
         //Customers
@@ -347,6 +349,119 @@ namespace Presentation
             Main_Menu_App_UI();
         }
 
+
+
+        //SoftwareProducts
+
+        public void CreateSoftwareProduct_UI()
+        {
+            Console.Clear();
+            Console.Write("Title: ");
+            string title = Console.ReadLine()!;
+
+            Console.Write("Quantity (for example, 120 if u have 120 gigabytes): ");
+            int quantity = int.Parse( Console.ReadLine()!);
+
+            Console.Write("Unit (for example, GB for gigabyte): ");
+            string unit = Console.ReadLine()!;
+
+            var softwareProduct = _softwareProductService.CreateSoftwareProduct(title, quantity, unit);
+            if (softwareProduct != null)
+            {
+                Console.Clear();
+                Console.WriteLine("Software Product was created.");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Something went wrong. Please try again");
+                Console.ReadKey();
+                Main_Menu_App_UI();
+            }
+
+        }
+
+
+        public void GetSoftwareProducts_UI()
+        {
+            Console.Clear();
+            var softwareProducts = _softwareProductService.GetSoftwareProducts();
+            Console.Clear();
+
+            foreach (var sp in softwareProducts)
+            {
+
+                Console.WriteLine($"Title: {sp.Title} ({sp.Size.Quantity}{sp.Size.Unit})");
+                Console.WriteLine();
+            }
+            Console.ReadKey();
+            Main_Menu_App_UI();
+        }
+
+        public void UpdateSoftwareProduct_UI()
+        {
+            Console.Clear();
+            Console.Write("Enter Software Product Id: ");
+            int id = int.Parse(Console.ReadLine()!);
+
+            var softwareProduct = _softwareProductService.GetSoftwareProductById(id);
+            if (softwareProduct != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Title: {softwareProduct.Title} ({softwareProduct.Size.Quantity}{softwareProduct.Size.Unit})");
+
+
+
+                Console.Write("Enter New Title: ");
+                softwareProduct.Title = Console.ReadLine()!;
+
+                var newsoftwareProduct = _softwareProductService.UpdateSoftwareProduct(softwareProduct);
+                Console.WriteLine("### UPDATED ###");
+                Console.WriteLine();
+                Console.WriteLine($"New Title: {newsoftwareProduct.Title}");
+                Console.WriteLine();
+
+
+            }
+            else
+            {
+                Console.WriteLine("No Software Product found.");
+
+            }
+
+            Console.ReadKey();
+            Main_Menu_App_UI();
+
+        }
+
+
+        public void DeleteSoftwareProduct_UI()
+        {
+            Console.Clear();
+            Console.Write("Enter Software Product Id:");
+            int id = int.Parse(Console.ReadLine()!);
+
+            var softwareProduct = _softwareProductService.GetSoftwareProductById(id);
+            if (softwareProduct != null)
+            {
+                _softwareProductService.DeleteSoftwareProduct(softwareProduct.Id);
+                Console.WriteLine("Champion was deleted.");
+            }
+            else
+            {
+                Console.WriteLine("No champion found.");
+
+            }
+
+            Console.ReadKey();
+            Main_Menu_App_UI();
+        }
+
+
+
+
+
+
         public void Main_Menu_App_UI()
         {
             Console.Clear();
@@ -355,8 +470,9 @@ namespace Presentation
             Console.WriteLine("1. Product Menu");
             Console.WriteLine("2. Customer Menu");
             Console.WriteLine("3. Champion Menu");
-            Console.WriteLine("4. Exit App");
-            Console.Write("Your choice(1-4): ");
+            Console.WriteLine("4. Software Product Menu");
+            Console.WriteLine("5. Exit App");
+            Console.Write("Your choice(1-5): ");
             string option = Console.ReadLine();
 
             switch (option)
@@ -390,6 +506,7 @@ namespace Presentation
                             DeleteProduct_UI();
                             break;
                         case "5":
+                            Main_Menu_App_UI();
                             break;
                     }
                     break;
@@ -423,6 +540,7 @@ namespace Presentation
                             DeleteCustomer_UI();
                             break;
                         case "5":
+                            Main_Menu_App_UI();
                             break;
                     }
                     break;
@@ -455,11 +573,46 @@ namespace Presentation
                             DeleteChampion_UI();
                             break;
                         case "5":
+                            Main_Menu_App_UI();
                             break;
                     }
                     break;
 
                 case "4":
+                    Console.Clear();
+                    Console.WriteLine("## Software Product Menu ##");
+                    Console.WriteLine();
+                    Console.WriteLine("1. Create");
+                    Console.WriteLine("2. Show");
+                    Console.WriteLine("3. Update");
+                    Console.WriteLine("4. Delete");
+                    Console.WriteLine("5. Return to Main Menu");
+                    Console.Write("Your choice(1-5): ");
+                    string spOption = Console.ReadLine();
+
+                    switch (spOption)
+                    {
+                        case "1":
+                            CreateSoftwareProduct_UI();
+                            break;
+
+                        case "2":
+                            GetSoftwareProducts_UI();
+                            break;
+
+                        case "3":
+                            UpdateSoftwareProduct_UI();
+                            break;
+                        case "4":
+                            DeleteSoftwareProduct_UI();
+                            break;
+                        case "5":
+                            Main_Menu_App_UI();
+                            break;
+                    }
+                    break;
+
+                case "5":
                     Environment.Exit(0);
                     break;
             }

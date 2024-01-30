@@ -20,6 +20,9 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
     services.AddScoped<ChampionRepository>();
     services.AddScoped<TeamRepository>();
     services.AddScoped<LeagueRepository>();
+    services.AddScoped<SizeRepository>();
+    services.AddScoped<SoftwareProductRepository>();
+
 
     services.AddScoped<AdressService>();
     services.AddScoped<CategoryService>();
@@ -29,8 +32,10 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
     services.AddScoped<ChampionService>();
     services.AddScoped<TeamService>();
     services.AddScoped<LeagueService>();
+    services.AddScoped<SizeService>();
+    services.AddScoped<SoftwareProductService>();
 
-    services.AddScoped<MainMenu_UI>();
+    services.AddSingleton<MainMenu_UI>();
 
 
 }).Build();

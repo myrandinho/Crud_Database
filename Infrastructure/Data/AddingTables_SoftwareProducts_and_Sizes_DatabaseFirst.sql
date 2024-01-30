@@ -1,0 +1,20 @@
+﻿DROP TABLE SoftwareProducts
+DROP TABLE Sizes
+
+
+
+CREATE TABLE Sizes (
+	
+	Id int Primary key,
+	Quantity int not null,
+	Unit varchar(10) not null
+)
+
+CREATE TABLE SoftwareProducts(
+	
+	Id int Primary key,
+	Title nvarchar(100) not null,
+	SizeId int,
+	Foreign Key (SizeId) References Sizes(Id)
+
+)
