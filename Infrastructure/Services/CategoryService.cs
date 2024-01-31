@@ -2,6 +2,7 @@
 
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using System.Diagnostics;
 
 namespace Infrastructure.Services;
 
@@ -16,39 +17,94 @@ public class CategoryService
 
     public CategoryEntity CreateCategory(string categoryName)
     {
-        var categoryEntity = _categoryRepository.Get(x => x.CategoryName == categoryName);
-        categoryEntity ??= _categoryRepository.Create(new CategoryEntity { CategoryName = categoryName });
+        try
+        {
+            var categoryEntity = _categoryRepository.Get(x => x.CategoryName == categoryName);
+            categoryEntity ??= _categoryRepository.Create(new CategoryEntity { CategoryName = categoryName });
 
-        return categoryEntity;
+            if (categoryEntity != null)
+            {
+                
+                return categoryEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
 
     }
 
     public CategoryEntity GetCategoryByCategoryName(string categoryName)
     {
-        var categoryEntity = _categoryRepository.Get(x => x.CategoryName == categoryName);
-        return categoryEntity;
+        try
+        {
+            var categoryEntity = _categoryRepository.Get(x => x.CategoryName == categoryName);
+            if (categoryEntity != null)
+            {
+                return categoryEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
+
 
     public CategoryEntity GetCategoryById(int id)
     {
-        var categoryEntity = _categoryRepository.Get(x => x.Id == id);
-        return categoryEntity;
+        try
+        {
+            var categoryEntity = _categoryRepository.Get(x => x.Id == id);
+            if (categoryEntity != null)
+            {
+                return categoryEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
 
     public IEnumerable<CategoryEntity> GetCategories()
     {
-        var categories = _categoryRepository.GetAll();
-        return categories;
+        try
+        {
+            var categories = _categoryRepository.GetAll();
+            if (categories != null)
+            {
+                return categories;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
 
     public CategoryEntity UpdateCategory(CategoryEntity categoryEntity)
     {
-        var updatedCategoryEntity = _categoryRepository.Update(x => x.Id == categoryEntity.Id, categoryEntity);
-        return updatedCategoryEntity;
+        try
+        {
+            var updatedCategoryEntity = _categoryRepository.Update(x => x.Id == categoryEntity.Id, categoryEntity);
+            if (updatedCategoryEntity != null)
+            {
+                return updatedCategoryEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
 
-    public void DeleteCategory(int id)
+    public bool DeleteCategory(int id)
     {
-        _categoryRepository.Delete(x => x.Id == id);
+        try
+        {
+            if( id != 0)
+            {
+                _categoryRepository.Delete(x => x.Id == id);
+                return true;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return false;
     }
 }

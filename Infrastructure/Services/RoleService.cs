@@ -2,6 +2,7 @@
 
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using System.Diagnostics;
 
 namespace Infrastructure.Services;
 
@@ -19,39 +20,89 @@ public class RoleService
 
     public RoleEntity CreateRole(string roleName)
     {
-        var roleEntity = _roleRepository.Get(x => x.RoleName == roleName);
-        roleEntity ??= _roleRepository.Create(new RoleEntity { RoleName = roleName });
+        try
+        {
+            var roleEntity = _roleRepository.Get(x => x.RoleName == roleName);
+            roleEntity ??= _roleRepository.Create(new RoleEntity { RoleName = roleName });
+            if (roleEntity != null)
+            {
+                return roleEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
 
-        return roleEntity;
 
     }
 
     public RoleEntity GetRoleByRoleName(string roleName)
     {
-        var roleEntity = _roleRepository.Get(x => x.RoleName == roleName);
-        return roleEntity;
+        try
+        {
+            var roleEntity = _roleRepository.Get(x => x.RoleName == roleName);
+            if (roleEntity != null)
+            {
+                return roleEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
 
     public RoleEntity GetRoleById(int id)
     {
-        var roleEntity = _roleRepository.Get(x => x.Id == id);
-        return roleEntity;
+        try
+        {
+            var roleEntity = _roleRepository.Get(x => x.Id == id);
+            if (roleEntity != null)
+            {
+                return roleEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public IEnumerable<RoleEntity> GetRoles()
     {
-        var roles = _roleRepository.GetAll();
-        return roles;
+        try
+        {
+            var roles = _roleRepository.GetAll();
+            if (roles != null)
+            {
+                return roles;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public RoleEntity UpdateRole(RoleEntity roleEntity)
     {
-        var updatedRoleEntity = _roleRepository.Update(x => x.Id == roleEntity.Id, roleEntity);
-        return updatedRoleEntity;
+        try
+        {
+            var updatedRoleEntity = _roleRepository.Update(x => x.Id == roleEntity.Id, roleEntity);
+            if (updatedRoleEntity != null)
+            {
+                return updatedRoleEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
-    public void DeleteRole(int id)
+    public bool DeleteRole(int id)
     {
-        _roleRepository.Delete(x => x.Id == id);
+        try
+        {
+            if (id != 0)
+            {
+                _roleRepository.Delete(x => x.Id == id);
+                return true;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return false;
     }
 }

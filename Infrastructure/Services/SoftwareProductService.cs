@@ -2,6 +2,7 @@
 
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using System.Diagnostics;
 
 namespace Infrastructure.Services;
 
@@ -25,44 +26,83 @@ public class SoftwareProductService
 
 
 
-        var sizeEntity = _sizeService.CreateSize(quantity, unit);
-
-        var softwareProductEntity = new SoftwareProduct
+        try
         {
-            Title = title,
-            SizeId = sizeEntity.Id
+            var sizeEntity = _sizeService.CreateSize(quantity, unit);
 
-        };
+            var softwareProductEntity = new SoftwareProduct
+            {
+                Title = title,
+                SizeId = sizeEntity.Id
 
-        softwareProductEntity = _softwareProductRepository.Create(softwareProductEntity);
-        return softwareProductEntity;
+            };
+
+            softwareProductEntity = _softwareProductRepository.Create(softwareProductEntity);
+            if (softwareProductEntity != null)
+            {
+                return softwareProductEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
 
     }
-
-
 
 
 
     public SoftwareProduct GetSoftwareProductById(int id)
     {
-        var softwareProductEntity = _softwareProductRepository.Get(x => x.Id == id);
-        return softwareProductEntity;
+        try
+        {
+            var softwareProductEntity = _softwareProductRepository.Get(x => x.Id == id);
+            if (softwareProductEntity != null)
+            {
+                return softwareProductEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public IEnumerable<SoftwareProduct> GetSoftwareProducts()
     {
-        var softwareProduct = _softwareProductRepository.GetAll();
-        return softwareProduct;
+        try
+        {
+            var softwareProduct = _softwareProductRepository.GetAll();
+            if (softwareProduct != null)
+            {
+                return softwareProduct;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public SoftwareProduct UpdateSoftwareProduct(SoftwareProduct softwareProductEntity)
     {
-        var updatedsoftwareProductEntity = _softwareProductRepository.Update(x => x.Id == softwareProductEntity.Id, softwareProductEntity);
-        return updatedsoftwareProductEntity;
+        try
+        {
+            var updatedsoftwareProductEntity = _softwareProductRepository.Update(x => x.Id == softwareProductEntity.Id, softwareProductEntity);
+            if (updatedsoftwareProductEntity != null)
+            {
+                return updatedsoftwareProductEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
-    public void DeleteSoftwareProduct(int id)
+    public bool DeleteSoftwareProduct(int id)
     {
-        _softwareProductRepository.Delete(x => x.Id == id);
+        try
+        {
+            if (id != 0)
+            {
+                _softwareProductRepository.Delete(x => x.Id == id);
+                return true;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return false;
     }
 }

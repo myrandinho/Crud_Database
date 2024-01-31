@@ -2,6 +2,8 @@
 
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Infrastructure.Services;
 
@@ -22,14 +24,14 @@ public class ChampionService
 
     public ChampionEntity CreateChampion(int year, string throphy, string teamName, string leagueName, string nation)
     {
-        
-        
+        try
+        {
             var teamEntity = _teamService.CreateTeam(teamName);
             var leagueEntity = _leagueService.CreateLeague(leagueName, nation);
 
             var championEntity = new ChampionEntity
             {
-                
+
                 Year = year,
                 Throphy = throphy,
                 TeamId = teamEntity.Id,
@@ -37,34 +39,76 @@ public class ChampionService
             };
 
             championEntity = _championRepository.Create(championEntity);
-            return championEntity;
-        
+            if (championEntity != null)
+            {
+                return championEntity;
+            }
+
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
+
     }
-
-
 
 
 
     public ChampionEntity GetChampionById(int id)
     {
-        var championEntity = _championRepository.Get(x => x.Id == id);
-        return championEntity;
+        try
+        {
+            var championEntity = _championRepository.Get(x => x.Id == id);
+            if (championEntity != null)
+            {
+                return championEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
 
     public IEnumerable<ChampionEntity> GetChampions()
     {
-        var champion = _championRepository.GetAll();
-        return champion;
+        try
+        {
+            var champion = _championRepository.GetAll();
+            if (champion != null)
+            {
+                return champion;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
 
     public ChampionEntity UpdateChampion(ChampionEntity championEntity)
     {
-        var updatedChampionEntity = _championRepository.Update(x => x.Id == championEntity.Id, championEntity);
-        return updatedChampionEntity;
+        try
+        {
+            var updatedChampionEntity = _championRepository.Update(x => x.Id == championEntity.Id, championEntity);
+            if (updatedChampionEntity != null)
+            {
+                return updatedChampionEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
 
-    public void DeleteChampion(int id)
+    public bool DeleteChampion(int id)
     {
-        _championRepository.Delete(x => x.Id == id);
+        try
+        {
+            if (id != 0)
+            {
+                _championRepository.Delete(x => x.Id == id);
+                return true;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return false;
     }
 }

@@ -2,6 +2,7 @@
 
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using System.Diagnostics;
 
 namespace Infrastructure.Services;
 
@@ -20,40 +21,82 @@ public class ProductService
 
     public ProductEntity CreateProduct(string title, decimal price, string categoryName)
     {
-        var categoryEntity = _categoryService.CreateCategory(categoryName);
-
-        var productEntity = new ProductEntity
+        try
         {
-            Title = title,
-            Price = price,
-            CategoryId = categoryEntity.Id,
-        };
+            var categoryEntity = _categoryService.CreateCategory(categoryName);
 
-        productEntity = _productRepository.Create(productEntity);
-        return productEntity;
+            var productEntity = new ProductEntity
+            {
+                Title = title,
+                Price = price,
+                CategoryId = categoryEntity.Id,
+            };
+
+            productEntity = _productRepository.Create(productEntity);
+            if (productEntity != null)
+            {
+                return productEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public ProductEntity GetProductById(int id)
     {
-        var productEntity = _productRepository.Get(x => x.Id == id);
-        return productEntity;
+        try
+        {
+            var productEntity = _productRepository.Get(x => x.Id == id);
+            if (productEntity != null)
+            {
+                return productEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
+
     }
 
     public IEnumerable<ProductEntity> GetProducts()
     {
-        var products = _productRepository.GetAll();
-        return products;
+        try
+        {
+            var products = _productRepository.GetAll();
+            if (products != null)
+            {
+                return products;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public ProductEntity UpdateProduct(ProductEntity productEntity)
     {
-        var updatedProductEntity = _productRepository.Update(x => x.Id == productEntity.Id, productEntity);
-        return updatedProductEntity;
+        try
+        {
+            var updatedProductEntity = _productRepository.Update(x => x.Id == productEntity.Id, productEntity);
+            if (updatedProductEntity != null)
+            {
+                return updatedProductEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
-    public void DeleteProduct(int id)
+    public bool DeleteProduct(int id)
     {
-        _productRepository.Delete(x => x.Id == id);
+        try
+        {
+            if (id != 0)
+            {
+                _productRepository.Delete(x => x.Id == id);
+                return true;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return false;
     }
 
 }

@@ -2,6 +2,7 @@
 
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using System.Diagnostics;
 
 namespace Infrastructure.Services;
 
@@ -19,34 +20,74 @@ public class SizeService
 
     public Size CreateSize(int quantity, string unit)
     {
-        var sizeEntity = _sizeRepository.Get(x => x.Quantity == quantity && x.Unit == unit);
-        sizeEntity ??= _sizeRepository.Create(new Size { Quantity = quantity, Unit = unit });
-
-        return sizeEntity;
+        try
+        {
+            var sizeEntity = _sizeRepository.Get(x => x.Quantity == quantity && x.Unit == unit);
+            sizeEntity ??= _sizeRepository.Create(new Size { Quantity = quantity, Unit = unit });
+            if (sizeEntity != null)
+            {
+                return sizeEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
 
     }
 
 
     public Size GetSizeById(int id)
     {
-        var sizeEntity = _sizeRepository.Get(x => x.Id == id);
-        return sizeEntity;
+        try
+        {
+            var sizeEntity = _sizeRepository.Get(x => x.Id == id);
+            if (sizeEntity != null)
+            {
+                return sizeEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public IEnumerable<Size> GetSizes()
     {
-        var sizeEntities = _sizeRepository.GetAll();
-        return sizeEntities;
+        try
+        {
+            var sizeEntities = _sizeRepository.GetAll();
+            if (sizeEntities != null)
+            {
+                return sizeEntities;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public Size UpdateSize(Size sizeEntity)
     {
-        var updatedSizeEntity = _sizeRepository.Update(x => x.Id == sizeEntity.Id, sizeEntity);
-        return updatedSizeEntity;
+        try
+        {
+            var updatedSizeEntity = _sizeRepository.Update(x => x.Id == sizeEntity.Id, sizeEntity);
+            if (updatedSizeEntity != null)
+            {
+                return updatedSizeEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
-    public void DeleteSize(int id)
+    public bool DeleteSize(int id)
     {
-        _sizeRepository.Delete(x => x.Id == id);
+        try
+        {
+            if (id != 0)
+            {
+                _sizeRepository.Delete(x => x.Id == id);
+                return true;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return false;
     }
 }

@@ -2,6 +2,7 @@
 
 using Infrastructure.Entities;
 using Infrastructure.Repositories;
+using System.Diagnostics;
 
 namespace Infrastructure.Services;
 
@@ -16,39 +17,87 @@ public class TeamService
 
     public TeamEntity CreateTeam(string teamName)
     {
-        var teamEntity = _teamRepository.Get(x => x.TeamName == teamName);
-        teamEntity ??= _teamRepository.Create(new TeamEntity { TeamName = teamName });
-
-        return teamEntity;
+        try
+        {
+            var teamEntity = _teamRepository.Get(x => x.TeamName == teamName);
+            teamEntity ??= _teamRepository.Create(new TeamEntity { TeamName = teamName });
+            if (teamEntity != null)
+            {
+                return teamEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
 
     }
 
     public TeamEntity GetTeamByTeamName(string teamName)
     {
-        var teamEntity = _teamRepository.Get(x => x.TeamName == teamName);
-        return teamEntity;
+        try
+        {
+            var teamEntity = _teamRepository.Get(x => x.TeamName == teamName);
+            if (teamEntity != null)
+            {
+                return teamEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public TeamEntity GetTeamById(int id)
     {
-        var teamEntity = _teamRepository.Get(x => x.Id == id);
-        return teamEntity;
+        try
+        {
+            var teamEntity = _teamRepository.Get(x => x.Id == id);
+            if (teamEntity != null)
+            {
+                return teamEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public IEnumerable<TeamEntity> GetTeams()
     {
-        var teams = _teamRepository.GetAll();
-        return teams;
+        try
+        {
+            var teams = _teamRepository.GetAll();
+            if (teams != null)
+            {
+                return teams;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
     public TeamEntity UpdateTeam(TeamEntity teamEntity)
     {
-        var updatedTeamEntity = _teamRepository.Update(x => x.Id == teamEntity.Id, teamEntity);
-        return updatedTeamEntity;
+        try
+        {
+            var updatedTeamEntity = _teamRepository.Update(x => x.Id == teamEntity.Id, teamEntity);
+            if (updatedTeamEntity != null)
+            {
+                return updatedTeamEntity;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return null!;
     }
 
-    public void DeleteTeam(int id)
+    public bool DeleteTeam(int id)
     {
-        _teamRepository.Delete(x => x.Id == id);
+        try
+        {
+            if (id != 0)
+            {
+                _teamRepository.Delete(x => x.Id == id);
+                return true;
+            }
+        }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
+        return false;
     }
 }
