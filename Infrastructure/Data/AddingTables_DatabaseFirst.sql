@@ -1,5 +1,4 @@
-﻿
-DROP TABLE SoftwareProducts
+﻿DROP TABLE SoftwareProducts
 DROP TABLE Sizes
 
 

@@ -15,7 +15,7 @@ public class SoftwareProductService
     {
         _softwareProductRepository = softwareProductRepository;
         _sizeService = sizeService;
-       
+
     }
 
 
@@ -24,14 +24,14 @@ public class SoftwareProductService
     {
 
 
-        
+
         var sizeEntity = _sizeService.CreateSize(quantity, unit);
 
         var softwareProductEntity = new SoftwareProduct
         {
             Title = title,
             SizeId = sizeEntity.Id
-            
+
         };
 
         softwareProductEntity = _softwareProductRepository.Create(softwareProductEntity);

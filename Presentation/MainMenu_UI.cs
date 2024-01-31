@@ -360,7 +360,7 @@ namespace Presentation
             string title = Console.ReadLine()!;
 
             Console.Write("Quantity (for example, 120 if u have 120 gigabytes): ");
-            int quantity = int.Parse( Console.ReadLine()!);
+            int quantity = int.Parse(Console.ReadLine()!);
 
             Console.Write("Unit (for example, GB for gigabyte): ");
             string unit = Console.ReadLine()!;
@@ -391,7 +391,7 @@ namespace Presentation
             foreach (var sp in softwareProducts)
             {
 
-                Console.WriteLine($"Title: {sp.Title} ({sp.Size.Quantity}{sp.Size.Unit})");
+                Console.WriteLine($"{sp.Title} ({sp.Size.Quantity}{sp.Size.Unit})");
                 Console.WriteLine();
             }
             Console.ReadKey();
