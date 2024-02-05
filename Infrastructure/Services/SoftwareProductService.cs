@@ -30,18 +30,24 @@ public class SoftwareProductService
         {
             var sizeEntity = _sizeService.CreateSize(quantity, unit);
 
-            var softwareProductEntity = new SoftwareProduct
+            if (sizeEntity != null)
             {
-                Title = title,
-                SizeId = sizeEntity.Id
+                var softwareProductEntity = new SoftwareProduct
+                {
+                    Title = title,
+                    SizeId = sizeEntity.Id
 
-            };
+                };
 
-            softwareProductEntity = _softwareProductRepository.Create(softwareProductEntity);
-            if (softwareProductEntity != null)
-            {
-                return softwareProductEntity;
+
+                softwareProductEntity = _softwareProductRepository.Create(softwareProductEntity);
+                if (softwareProductEntity != null)
+                {
+                    return softwareProductEntity;
+                }
             }
+            
+
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;
