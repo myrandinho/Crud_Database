@@ -13,7 +13,6 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
     services.AddDbContext<DataContext>(x => x.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\my-projects\Crud_Database\Infrastructure\Data\CODE_FIRST_database.mdf;Integrated Security=True;Connect Timeout=30"));
     services.AddDbContext<DataContext2>(y => y.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\my-projects\Crud_Database\Infrastructure\Data\SoftwareProductCatalog.mdf;Integrated Security=True;Connect Timeout=30"));
 
-
     services.AddScoped<AdressRepository>();
     services.AddScoped<CategoryRepository>();
     services.AddScoped<RoleRepository>();
@@ -24,7 +23,6 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
     services.AddScoped<LeagueRepository>();
     services.AddScoped<SizeRepository>();
     services.AddScoped<SoftwareProductRepository>();
-
 
     services.AddScoped<AdressService>();
     services.AddScoped<CategoryService>();
