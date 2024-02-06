@@ -14,9 +14,9 @@ public partial class SoftwareProduct
     [StringLength(100)]
     public string Title { get; set; } = null!;
 
-    public int? SizeId { get; set; }
+    public int SizeId { get; set; }
 
     [ForeignKey("SizeId")]
     [InverseProperty("SoftwareProducts")]
-    public virtual Size? Size { get; set; }
+    public virtual Size Size { get; set; } = null!;
 }

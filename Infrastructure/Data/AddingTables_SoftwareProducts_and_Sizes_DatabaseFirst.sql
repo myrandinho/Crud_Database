@@ -16,7 +16,7 @@ CREATE TABLE SoftwareProducts(
 	
 	Id int Primary key IDENTITY(1,1),
 	Title nvarchar(100) not null,
-	SizeId int,
+	SizeId int not null,
 	Foreign Key (SizeId) References Sizes(Id)
 
 )

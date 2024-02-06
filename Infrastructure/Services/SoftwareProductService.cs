@@ -39,14 +39,11 @@ public class SoftwareProductService
 
                 };
 
-
                 softwareProductEntity = _softwareProductRepository.Create(softwareProductEntity);
-                if (softwareProductEntity != null)
-                {
-                    return softwareProductEntity;
-                }
+                return softwareProductEntity;
+                
             }
-            
+
 
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }

@@ -23,11 +23,13 @@ public class SizeService
         try
         {
             var sizeEntity = _sizeRepository.Get(x => x.Quantity == quantity && x.Unit == unit);
-            sizeEntity ??= _sizeRepository.Create(new Size { Quantity = quantity, Unit = unit });
-            if (sizeEntity != null)
+            if (sizeEntity == null)
             {
-                return sizeEntity;
+                sizeEntity ??= _sizeRepository.Create(new Size { Quantity = quantity, Unit = unit });
             }
+
+            return sizeEntity;
+
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
         return null!;

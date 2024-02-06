@@ -64,8 +64,10 @@ namespace Presentation
             Console.Clear();
             foreach (var customer in customers)
             {
-                Console.WriteLine($"{customer.FirstName} {customer.LastName} ({customer.Role.RoleName}) ");
-                Console.WriteLine($"{customer.Adress.StreetName}, {customer.Adress.PostalCode}, {customer.Adress.City}");
+                Console.WriteLine($"Name: {customer.FirstName} {customer.LastName} ");
+                Console.WriteLine($"Role: {customer.Role.RoleName}");
+                Console.WriteLine($"Adress: {customer.Adress.StreetName}, {customer.Adress.PostalCode}, {customer.Adress.City}");
+                Console.WriteLine();
             }
 
             Console.ReadKey();
@@ -83,8 +85,9 @@ namespace Presentation
             {
                 Console.Clear();
                 Console.WriteLine();
-                Console.WriteLine($"{customer.FirstName} {customer.LastName} ({customer.Role.RoleName}) ");
-                Console.WriteLine($"{customer.Adress.StreetName}, {customer.Adress.PostalCode}, {customer.Adress.City}");
+                Console.WriteLine($"Name: {customer.FirstName} {customer.LastName} ");
+                Console.WriteLine($"Role: {customer.Role.RoleName}");
+                Console.WriteLine($"Adress: {customer.Adress.StreetName}, {customer.Adress.PostalCode}, {customer.Adress.City}");
                 Console.WriteLine();
 
                 Console.Write("New Last Name: ");
@@ -92,8 +95,10 @@ namespace Presentation
 
                 var newCustomer = _customerService.UpdateCustomer(customer);
                 Console.Clear();
-                Console.WriteLine($"{newCustomer.FirstName} {newCustomer.LastName} ({newCustomer.Role.RoleName}) ");
-                Console.WriteLine($"{newCustomer.Adress.StreetName}, {newCustomer.Adress.PostalCode}, {newCustomer.Adress.City}");
+                Console.WriteLine($"Name: {customer.FirstName} {customer.LastName} ");
+                Console.WriteLine($"Role: {customer.Role.RoleName}");
+                Console.WriteLine($"Adress: {customer.Adress.StreetName}, {customer.Adress.PostalCode}, {customer.Adress.City}");
+                Console.WriteLine();
             }
             else
             {
@@ -166,6 +171,7 @@ namespace Presentation
             foreach (var product in products)
             {
                 Console.WriteLine($"{product.Title} - {product.Category.CategoryName} ({product.Price}) Euro");
+                Console.WriteLine();
             }
 
             Console.ReadKey();
@@ -275,14 +281,15 @@ namespace Presentation
             var champions = _championService.GetChampions();
             Console.Clear();
 
-            foreach(var champion in champions)
+            foreach (var champion in champions)
             {
-                
+
                 Console.WriteLine($"Year: {champion.Year}");
                 Console.WriteLine($"Winner: {champion.Team.TeamName}");
                 Console.WriteLine($"League: {champion.League.LeagueName}, {champion.League.Nation} ");
                 Console.WriteLine($"Trophy: {champion.Throphy}");
-                Console.WriteLine("");
+                Console.WriteLine();
+
             }
             Console.ReadKey();
             Main_Menu_App_UI();
@@ -294,7 +301,7 @@ namespace Presentation
         {
             Console.Clear();
             Console.Write("Enter Champion Id: ");
-            int id = int.Parse( Console.ReadLine()!);
+            int id = int.Parse(Console.ReadLine()!);
 
             var champion = _championService.GetChampionById(id);
             if (champion != null)
@@ -302,7 +309,7 @@ namespace Presentation
                 Console.WriteLine();
                 Console.WriteLine($"Winner: {champion.Team.TeamName}");
 
-                
+
 
                 Console.Write("Enter New Team Name: ");
                 champion.Team.TeamName = Console.ReadLine()!;
@@ -331,7 +338,7 @@ namespace Presentation
         {
             Console.Clear();
             Console.Write("Enter Champion Id:");
-            int id = int.Parse( Console.ReadLine()!);
+            int id = int.Parse(Console.ReadLine()!);
 
             var champion = _championService.GetChampionById(id);
             if (champion != null)
